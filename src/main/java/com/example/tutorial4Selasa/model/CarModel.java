@@ -1,76 +1,93 @@
 package com.example.tutorial4Selasa.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "car")
 public class CarModel {
 
-    @Id
-    @Column(name = "id", nullable = false)
-    private String id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 
-    @Column(name = "brand", nullable = false)
+	@NotNull
+	@Size(max = 50)
+	@Column(name = "brand")
     private String brand;
 
-    @Column(name = "type", nullable = false)
+	@NotNull
+	@Size(max = 50)
+	@Column(name = "type")
 	private String type;
 
-    @Column(name = "price", nullable = false)
+	@NotNull
+	@Column(name = "price")
 	private Long price;
 
-    @Column(name = "amount", nullable = false)
+	@NotNull
+	@Column(name = "amount")
 	private Integer amount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dealer_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+	private DealerModel carDealer;
 
-	public CarModel(String id, String brand, String type, Long price, Integer amount) {
-		this.id = id;
-		this.brand = brand;
-		this.type = type;
-		this.price = price;
-		this.amount = amount;
-	}
-	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public String getBrand() {
-		return brand;
-	}
-	
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public Long getPrice() {
-		return price;
-	}
-	
-	public void setPrice(Long price) {
-		this.price = price;
-	}
-	
-	public Integer getAmount() {
-		return amount;
-	}
-	
-	public void setAmount(Integer amount) {
-		this.amount = amount;
-	}
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+
+    public DealerModel getCarDealer() {
+        return carDealer;
+    }
+
+    public void setCarDealer(DealerModel carDealer) {
+        this.carDealer = carDealer;
+    }
 }

@@ -1,22 +1,25 @@
 package com.example.tutorial4Selasa.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.tutorial4Selasa.Repository.CarDB;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.tutorial4Selasa.model.CarModel;
 
 @Service
 public class CarInMemoryService implements CarService {
-	private List<CarModel> archiveCar;
-	private CarDB carDB;
+	@Autowired
+    private CarDB carDB;
 
-	public CarInMemoryService(){
-		archiveCar = new ArrayList<>();
+
+	@Override
+	public Optional<CarModel> findById(long id) {
+		return carDB.findById(id);
 	}
-	
+
 	@Override
 	public void addCar(CarModel car) {
 		carDB.save(car);
@@ -28,13 +31,28 @@ public class CarInMemoryService implements CarService {
 	}
 
 	@Override
-	public CarModel getCarDetail(String id) { return carDB.findById(id); }
+	public boolean deleteCar(long id) {
+		if (carDB.existsById(id)) {
+			carDB.deleteById(id);
+			return true;
+		}
+		return false;
+	}
 
 	@Override
-	public void deleteCar(String id) {
-		if(carDB.existsById(id))){
-			carDB.deleteById(id);
+	public void updateCar(CarModel car) {
+		if(carDB.findById(car.getId()) != null){
+			CarModel carModel = carDB.findById(car.getId()).get();
+			carModel.setAmount(car.getAmount());
+			carModel.setBrand(car.getBrand());
+			carModel.setPrice(car.getPrice());
+			carModel.setType(car.getType());
+			carDB.save(carModel);
 		}
 	}
 
+	@Override
+	public List<CarModel> sortCarAscByPrice(long id_dealer) {
+		return 	carDB.findByCarDealerIdOrderByPriceDesc(id_dealer);
+	}
 }
