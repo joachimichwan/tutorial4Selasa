@@ -4,10 +4,11 @@
 		<title>View Detail</title>
 	</head>
 	<body>
-		<h3 th:text="${car.id}"></h3>
-		<h3 th:text="${car.brand}"></h3>
-		<h3 th:text="${car.type}"></h3>
-		<h3 th:text="${car.price}"></h3>
-		<h3 th:text="${car.amount}"></h3>
+		<h3 th:text="'Brand: ' + ${car.brand}"></h3>
+		<h3 th:text="'Type: ' + ${car.type}"></h3>
+		<h3 th:text="'Amount: ' + ${car.amount}"></h3>
+		<h3 th:text="'Price: ' + ${car.price}"></h3>
+		<td><a th:href="'/car/update/' + ${car.id}">Update</a></td>
+		<td><a th:href="'/car/delete/' + ${car.id}">Delete</a></td>
 	</body>
 </html>

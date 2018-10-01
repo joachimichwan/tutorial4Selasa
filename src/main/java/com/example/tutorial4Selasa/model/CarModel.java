@@ -82,7 +82,6 @@ public class CarModel {
         this.amount = amount;
     }
 
-
     public DealerModel getCarDealer() {
         return carDealer;
     }

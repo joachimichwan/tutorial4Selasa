@@ -1,21 +1,28 @@
 package com.example.tutorial4Selasa.service;
 
+import com.example.tutorial4Selasa.Repository.CarDB;
 import com.example.tutorial4Selasa.Repository.DealerDB;
+import com.example.tutorial4Selasa.model.CarModel;
 import com.example.tutorial4Selasa.model.DealerModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DealerInMemoryService implements DealerService {
     @Autowired
     private DealerDB dealerDB;
 
+    @Autowired
+    private CarDB carDB;
+
     @Override
-    public Optional<DealerModel> findById(long id) {
-        return dealerDB.findById(id);
+    public DealerModel findById(long id) {
+        List<CarModel> listCar = carDB.findByCarDealerIdOrderByPriceAsc(id);
+        DealerModel dealer = dealerDB.findById(id).get();
+        dealer.setCar(listCar);
+        return dealer;
     }
 
     @Override

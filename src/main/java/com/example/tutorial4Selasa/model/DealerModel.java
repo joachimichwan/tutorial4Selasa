@@ -29,7 +29,7 @@ public class DealerModel {
 
     @NotNull
     @Column(name = "telp")
-    private double telp;
+    private Integer telp;
 
     @OneToMany(mappedBy = "carDealer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CarModel> car;
@@ -50,11 +50,11 @@ public class DealerModel {
         this.alamat = alamat;
     }
 
-    public double getTelp() {
+    public Integer getTelp() {
         return telp;
     }
 
-    public void setTelp(double telp) {
+    public void setTelp(Integer telp) {
         this.telp = telp;
     }
 

@@ -17,13 +17,16 @@ public class DealerController {
     @Autowired
     private DealerService dealerService;
 
-    @Autowired
-    private CarService carService;
-
     @RequestMapping("/dealer/view/{id}")
-    public @ResponseBody List<CarModel>
-    view(@PathVariable Integer id, Model model){
-        return carService.sortCarAscByPrice(id);
+    public String view(@PathVariable Integer id, Model model){
+      if(dealerService.findById(id) != null){
+            DealerModel dealer = dealerService.findById(id);
+            model.addAttribute("dealer", dealer);
+            return "view-dealer";
+        } else {
+            model.addAttribute("dealer", id);
+            return "errorDealer";
+        }
     }
 
     @RequestMapping("/dealer/viewall")
@@ -49,8 +52,8 @@ public class DealerController {
 
     @RequestMapping("/dealer/update/{id}")
     public String update(Model model, @PathVariable(value = "id") long id) {
-//        DealerModel dealer = dealerService.findById(id);
-//        model.addAttribute("dealer", dealer);
+        DealerModel dealer = dealerService.findById(id);
+        model.addAttribute("dealer", dealer);
         return"updateDealer";
     }
 
@@ -67,6 +70,6 @@ public class DealerController {
             return "delete";
         }
         model.addAttribute("dealer", id);
-        return "error";
+        return "errorDealer";
     }
 }

@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CarDB extends JpaRepository<CarModel, Long> {
-    List<CarModel> findByCarDealerIdOrderByPriceDesc(long id);
-//    List<CarModel> findByCarDealerId(long id);
+    List<CarModel> findByCarDealerIdOrderByPriceAsc(long id);
 }

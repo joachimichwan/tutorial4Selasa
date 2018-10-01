@@ -25,17 +25,17 @@ public class CarController {
 		return"home";
 	}
 
-    @RequestMapping("/car/add/{id}")
-    public String add(Model model, @PathVariable(value = "id") long id) {
-        CarModel car = new CarModel();
-//        DealerModel dealer = dealerService.findById(id);
-//        dealer.setCar(car);
+    @RequestMapping("/car/add/{dealer_id}")
+    public String add(Model model, @PathVariable(value = "dealer_id") long dealer_id) {
+		CarModel car = new CarModel();
+        DealerModel dealer = dealerService.findById(dealer_id);
+        car.setCarDealer(dealer);
         model.addAttribute("car", car);
-        return"addCar";
+        return"addDealer";
     }
 
 	@RequestMapping(value = "/car/add", method = RequestMethod.POST)
-	public String addPilotSubmit(@ModelAttribute CarModel car) {
+	public String addCarSubmit(@ModelAttribute CarModel car) {
 		carService.addCar(car);
 		return"add";
 	}
@@ -48,7 +48,7 @@ public class CarController {
 			return "view-car";
 		} else {
 			model.addAttribute("car", id);
-			return "errorUpdate";
+			return "errorCar";
 		}
 	}
 
@@ -79,6 +79,6 @@ public class CarController {
 			return "delete";
 		}
 		model.addAttribute("car", id);
-		return "error";
+		return "errorCar";
 	}
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Home</title>
+	</head>
+	<body>
+		<h2>Hello!</h2>
+		
+		<h3>Tambah Mobil</h3>
+		<td><a th:href="'/car/add'">Tambah</a></td>
+		
+		<h3>Cari Mobil berdasarkan ID</h3>
+		<form action="/car/view" method="get">
+		  ID :<br>
+		  <input type="text" name="id">
+		  <button type="submit">Cari</button>
+		</form>
+		
+		<h3>Tampilkan semua dealer</h3>
+		<td><a th:href="'/dealer/viewall'">Cari</a></td>
+		
+	</body>
+</html>

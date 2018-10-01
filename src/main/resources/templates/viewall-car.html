@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<title>View Detail</title>
+		<title>View All Car</title>
 	</head>
 	<body>
 		<div th:each="car : ${carList}">
-			<h3 th:text="${car.id}"></h3>
-			<h3 th:text="${car.brand}"></h3>
-			<h3 th:text="${car.type}"></h3>
-			<h3 th:text="${car.price}"></h3>
-			<h3 th:text="${car.amount}"></h3>
+			<h3 th:text="'Brand: ' + ${car.brand}"></h3>
+			<h3 th:text="'Type: ' + ${car.type}"></h3>
+			<h3 th:text="'Amount: ' + ${car.amount}"></h3>
+			<h3 th:text="'Price: ' + ${car.price}"></h3>
+
+			<form action="/car/view" method="get">
+				<input type="hidden" name="id" th:value="*{car.id}">
+				<input type="submit" value="Lihat Mobil">
+			</form>
+
+			<td><a th:href="'/car/update/' + ${car.id}">Update</a></td>
+			<td><a th:href="'/car/delete/' + ${car.id}">Delete</a></td>
+			<hr>
 		</div>
 	</body>
 </html>

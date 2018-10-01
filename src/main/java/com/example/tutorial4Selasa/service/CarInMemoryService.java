@@ -53,6 +53,6 @@ public class CarInMemoryService implements CarService {
 
 	@Override
 	public List<CarModel> sortCarAscByPrice(long id_dealer) {
-		return 	carDB.findByCarDealerIdOrderByPriceDesc(id_dealer);
+		return 	carDB.findByCarDealerIdOrderByPriceAsc(id_dealer);
 	}
 }
