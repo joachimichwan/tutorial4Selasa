@@ -48,7 +48,7 @@ public class CarModel implements Serializable {
     private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "dealer_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonIgnore
     private DealerModel dealer;
