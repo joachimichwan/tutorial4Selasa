@@ -1,0 +1,77 @@
+package com.apap.tutorial4.controller;
+
+import java.util.List;
+
+import com.apap.tutorial4.model.CarModel;
+import com.apap.tutorial4.model.DealerModel;
+import com.apap.tutorial4.service.CarService;
+import com.apap.tutorial4.service.DealerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * DealerController
+ */
+@Controller
+public class DealerController {
+    @Autowired
+    private DealerService dealerService;
+
+    @Autowired
+    private CarService carService;
+
+    @RequestMapping("/")
+    private String home() {
+        return "home";
+    }
+
+    @RequestMapping(value = "/dealer/add", method = RequestMethod.GET)
+    private String add(Model model) {
+        model.addAttribute("dealer", new DealerModel());
+        return "addDealer";
+    }
+
+    @RequestMapping(value = "/dealer/add", method = RequestMethod.POST)
+    private String addDealerSubmit(@ModelAttribute DealerModel dealer) {
+        dealerService.addDealer(dealer);
+        return "add";
+    }
+
+    // @RequestMapping(value = "/dealer/view", method = RequestMethod.GET)
+    // private @ResponseBody DealerModel view(@RequestParam(value = "dealerId") Long dealerId, Model model) {
+    //     DealerModel archive = dealerService.getDealerDetailById(dealerId).get();
+    //     return archive;
+    // }
+
+    @RequestMapping(value = "/dealer/view", method = RequestMethod.GET)
+    private @ResponseBody List<CarModel> view(@RequestParam(value = "dealerId") Long dealerId, Model model) {
+        List<CarModel> archive = carService.getListCarOrderByPriceAsc(dealerId);
+        return archive;
+    }
+
+    @RequestMapping(value = "/dealer/delete", method = RequestMethod.GET)
+    private @ResponseBody String delete(@RequestParam(value = "dealerId") Long dealerId, Model model) {
+        dealerService.deleteById(dealerId);
+        return "Success";
+    }
+
+    @RequestMapping(value = "/dealer/update", method = RequestMethod.GET)
+    private String update(@RequestParam(value = "dealerId") Long dealerId, Model model) {
+        DealerModel archive = dealerService.getDealerDetailById(dealerId).get();
+        model.addAttribute("dealer", archive);
+        return "update-dealer";
+    }
+
+    @RequestMapping(value = "/dealer/update", method = RequestMethod.POST)
+    private @ResponseBody DealerModel updateFlightSubmit(@ModelAttribute DealerModel dealer, Model model) {
+        dealerService.addDealer(dealer);
+        return dealer;
+    }
+}
