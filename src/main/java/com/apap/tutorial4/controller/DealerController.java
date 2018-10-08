@@ -1,5 +1,6 @@
 package com.apap.tutorial4.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.apap.tutorial4.model.CarModel;
@@ -44,16 +45,18 @@ public class DealerController {
         return "add";
     }
 
-    // @RequestMapping(value = "/dealer/view", method = RequestMethod.GET)
-    // private @ResponseBody DealerModel view(@RequestParam(value = "dealerId") Long dealerId, Model model) {
-    //     DealerModel archive = dealerService.getDealerDetailById(dealerId).get();
-    //     return archive;
-    // }
-
     @RequestMapping(value = "/dealer/view", method = RequestMethod.GET)
-    private @ResponseBody List<CarModel> view(@RequestParam(value = "dealerId") Long dealerId, Model model) {
-        List<CarModel> archive = carService.getListCarOrderByPriceAsc(dealerId);
-        return archive;
+    private String view(@RequestParam(value = "dealerId") Long dealerId, Model model) {
+        DealerModel archiveDealer = dealerService.getDealerDetailById(dealerId).get();
+        /** 
+         * Untuk mendapatkan list car terurut berdasarkan harga dengan Query
+         * Bisa jadi berbeda dengan cara anda
+         */
+        List<CarModel> archiveListCar = carService.getListCarOrderByPriceAsc(dealerId);
+        archiveDealer.setListCar(archiveListCar);
+
+        model.addAttribute("dealer", archiveDealer);
+        return "view-dealer";
     }
 
     @RequestMapping(value = "/dealer/delete", method = RequestMethod.GET)

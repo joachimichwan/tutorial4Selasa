@@ -1,5 +1,8 @@
 package com.apap.tutorial4.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.apap.tutorial4.model.CarModel;
 import com.apap.tutorial4.model.DealerModel;
 import com.apap.tutorial4.service.CarService;
@@ -28,17 +31,20 @@ public class CarController {
 
     @RequestMapping(value = "/car/add/{dealerId}", method = RequestMethod.GET)
     private String add(@PathVariable(value = "dealerId") Long dealerId, Model model) {
-        CarModel car = new CarModel();
         DealerModel dealer = dealerService.getDealerDetailById(dealerId).get();
-        car.setDealer(dealer);
+        dealer.setListCar(new ArrayList<CarModel>());
 
-        model.addAttribute("car", car);
+        model.addAttribute("dealer", dealer);
         return "addCar";
     }
 
     @RequestMapping(value = "/car/add", method = RequestMethod.POST)
-    private String addCarSubmit(@ModelAttribute CarModel car) {
-        carService.addCar(car);
+    private String addCarSubmit(@ModelAttribute DealerModel dealer) {
+        DealerModel archive = dealerService.getDealerDetailById(dealer.getId()).get();
+        for (CarModel car : dealer.getListCar()) {
+            car.setDealer(archive);
+            carService.addCar(car);
+        }
         return "add";
     }
 
@@ -48,10 +54,12 @@ public class CarController {
         return archive;
     }
 
-    @RequestMapping(value = "/car/delete", method = RequestMethod.GET)
-    private @ResponseBody long delete(@RequestParam(value = "type") String type, Model model) {
-        long archive = carService.deleteCarByType(type);
-        return archive;
+    @RequestMapping(value = "/car/delete", method = RequestMethod.POST)
+    private String delete(@ModelAttribute DealerModel dealer, Model model) {
+        for (CarModel car : dealer.getListCar()) {
+            carService.deleteCar(car);
+        }
+        return "delete";
     }
 
     @RequestMapping(value = "/car/update", method = RequestMethod.GET)

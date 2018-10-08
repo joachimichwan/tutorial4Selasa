@@ -12,7 +12,7 @@ public interface CarService {
     
     CarModel getCarDetailByType(String type);
 
-    long deleteCarByType(String type);
+    void deleteCar(CarModel car);
 
     List<CarModel> getListCarOrderByPriceAsc(Long dealerId);
 }

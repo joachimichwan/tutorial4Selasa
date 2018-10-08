@@ -27,6 +27,11 @@ public class DealerModel implements Serializable {
 
     @NotNull
     @Size(max = 50)
+    @Column(name = "nama", nullable = false)
+    private String nama;
+
+    @NotNull
+    @Size(max = 50)
     @Column(name = "alamat", nullable = false)
     private String alamat;
 
@@ -43,6 +48,12 @@ public class DealerModel implements Serializable {
      */
     public void setId(long id) {
         this.id = id;
+    }
+    /**
+     * @param nama the nama to set
+     */
+    public void setNama(String nama) {
+        this.nama = nama;
     } 
     /**
      * @param alamat the alamat to set
@@ -68,6 +79,12 @@ public class DealerModel implements Serializable {
      */
     public long getId() {
         return id;
+    }
+    /**
+     * @return the nama
+     */
+    public String getNama() {
+        return nama;
     }
     /**
      * @return the alamat

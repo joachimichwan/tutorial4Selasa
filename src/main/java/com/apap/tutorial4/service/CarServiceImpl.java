@@ -29,8 +29,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public long deleteCarByType(String type) {
-        return carDb.deleteByType(type);
+    public void deleteCar(CarModel car) {
+        carDb.delete(car);
     }
 
     @Override

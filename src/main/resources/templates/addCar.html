@@ -3,28 +3,68 @@
 
 <head>
     <title>Add Car</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
     <h2>Hello!</h2>
 
     <h3>Tambah Mobil</h3>
-    <form th:action="@{/car/add}" th:object="${car}" method="POST">
-        <input type="hidden" th:field="*{dealer}"/>
-        Brand: <br>
-        <input type="text" name="brand" />
-        <br>
-        Type: <br>
-        <input type="text" name="type" />
-        <br>
-        Price: <br>
-        <input type="number" name="price" />
-        <br>
-        Amount: <br>
-        <input type="number" name="amount" />
-        <br><br>
+    <form th:action="@{/car/add}" th:object="${dealer}" method="POST">
+        <input type="hidden" th:field="*{id}" />
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th><button id="tambahRow">Tambah</button></th>
+                </tr>
+            </thead>
+            <tbody id="tableContent">
+                <tr>
+                    <td>
+                        <input type="text" name="listCar[0].brand">
+                    </td>
+                    <td>
+                        <input type="text" name="listCar[0].type">
+                    </td>
+                    <td>
+                        <input type="number" name="listCar[0].price">
+                    </td>
+                    <td>
+                        <input type="number" name="listCar[0].amount">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <button type="submit">Submit</button>
     </form>
 </body>
 
+<script>
+    var count = 0;
+    $('#tambahRow').on('click', function (e) {
+        e.preventDefault();
+        count++;
+        $('#tableContent:last-child').append(
+            '<tr>' +
+                '<td>' +
+                    '<input type="text" name="listCar[' + count + '].brand">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" name="listCar[' + count + '].type">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="number" name="listCar[' + count + '].price">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="number" name="listCar[' + count + '].amount">'+
+                '</td>' +
+            '</tr>'
+        );
+    });
+</script>
 </html>
