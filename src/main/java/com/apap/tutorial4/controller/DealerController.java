@@ -1,6 +1,5 @@
 package com.apap.tutorial4.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.apap.tutorial4.model.CarModel;

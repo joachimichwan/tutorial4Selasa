@@ -1,7 +1,8 @@
 package com.apap.tutorial4.controller;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.apap.tutorial4.model.CarModel;
 import com.apap.tutorial4.model.DealerModel;
@@ -38,12 +39,34 @@ public class CarController {
         return "addCar";
     }
 
-    @RequestMapping(value = "/car/add", method = RequestMethod.POST)
+    @RequestMapping(value="/car/add/{dealerId}", method = RequestMethod.POST, params={"addRow"})
+    public String addRow(@ModelAttribute DealerModel dealer, Model model) {
+        if (dealer.getListCar() == null) {
+            dealer.setListCar(new ArrayList<CarModel>());
+        }
+        dealer.getListCar().add(new CarModel());
+
+        model.addAttribute("dealer", dealer);
+        return "addCar";
+    }
+
+    @RequestMapping(value="/car/add/{dealerId}", method = RequestMethod.POST, params={"removeRow"})
+    public String removeRow(@ModelAttribute DealerModel dealer, Model model, HttpServletRequest req) {
+        Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
+        dealer.getListCar().remove(rowId.intValue());
+        
+        model.addAttribute("dealer", dealer);
+        return "addCar";
+    }
+
+    @RequestMapping(value = "/car/add/{dealerId}", method = RequestMethod.POST, params={"save"})
     private String addCarSubmit(@ModelAttribute DealerModel dealer) {
         DealerModel archive = dealerService.getDealerDetailById(dealer.getId()).get();
         for (CarModel car : dealer.getListCar()) {
-            car.setDealer(archive);
-            carService.addCar(car);
+            if (car.getBrand() != null) {
+                car.setDealer(archive);
+                carService.addCar(car);
+            }
         }
         return "add";
     }

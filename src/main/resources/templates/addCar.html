@@ -3,14 +3,13 @@
 
 <head>
     <title>Add Car</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
     <h2>Hello!</h2>
 
     <h3>Tambah Mobil</h3>
-    <form th:action="@{/car/add}" th:object="${dealer}" method="POST">
+    <form th:action="@{/car/add/} + ${dealer.id}" th:object="${dealer}" method="POST">
         <input type="hidden" th:field="*{id}" />
 
         <table>
@@ -20,51 +19,33 @@
                     <th>Type</th>
                     <th>Price</th>
                     <th>Amount</th>
-                    <th><button id="tambahRow">Tambah</button></th>
+                    <th>
+                        <button type="submit" name="addRow">Tambah</button>
+                    </th>
                 </tr>
             </thead>
             <tbody id="tableContent">
-                <tr>
+                <tr th:each="car,iterationStatus : *{listCar}">
                     <td>
-                        <input type="text" name="listCar[0].brand">
+                        <input type="text" th:field="*{listCar[__${iterationStatus.index}__].brand}">
                     </td>
                     <td>
-                        <input type="text" name="listCar[0].type">
+                        <input type="text" th:field="*{listCar[__${iterationStatus.index}__].type}">
                     </td>
                     <td>
-                        <input type="number" name="listCar[0].price">
+                        <input type="number" th:field="*{listCar[__${iterationStatus.index}__].price}">
                     </td>
                     <td>
-                        <input type="number" name="listCar[0].amount">
+                        <input type="number" th:field="*{listCar[__${iterationStatus.index}__].amount}">
+                    </td>
+                    <td>
+                        <button type="submit" name="removeRow" th:value="${iterationStatus.index}">Hapus</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <button type="submit">Submit</button>
+        <button type="submit" name="save">Simpan</button>
     </form>
 </body>
 
-<script>
-    var count = 0;
-    $('#tambahRow').on('click', function (e) {
-        e.preventDefault();
-        count++;
-        $('#tableContent:last-child').append(
-            '<tr>' +
-                '<td>' +
-                    '<input type="text" name="listCar[' + count + '].brand">' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" name="listCar[' + count + '].type">' +
-                '</td>' +
-                '<td>' +
-                    '<input type="number" name="listCar[' + count + '].price">' +
-                '</td>' +
-                '<td>' +
-                    '<input type="number" name="listCar[' + count + '].amount">'+
-                '</td>' +
-            '</tr>'
-        );
-    });
-</script>
 </html>
